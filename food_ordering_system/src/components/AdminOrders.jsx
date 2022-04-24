@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import OrdersService from '../services/OrdersService';
-
+import Navbar from './AdminNavbar';
 export default function AdminOrders() {
 
 
@@ -38,6 +38,8 @@ export default function AdminOrders() {
 
 
   return (
+    <div>
+      <Navbar/>
     <div className="container rounded-3 my-2" style={{
       '--color-1': 'deepskyblue', '--color-2': 'gray',
       background: `
@@ -106,6 +108,7 @@ export default function AdminOrders() {
       </table>
     </div>
     </div>
+  </div>
   </div>
   )
 }

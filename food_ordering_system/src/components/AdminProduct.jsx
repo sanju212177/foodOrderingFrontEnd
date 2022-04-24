@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ItemService from "../services/ItemService";
 import { ToastContainer, toast } from 'react-toastify';
+import Navbar from './AdminNavbar';
 toast.configure()
 //import {useNavigate} from 'react-router-dom';
 
@@ -96,6 +97,8 @@ export default function AdminProduct() {
 
   return (
     // Add Product code of front-end
+    <div>
+    <Navbar/>
     <div className="container my-2 w-100 rounded-3 " id="product-heading" style={{
       '--color-1': 'deepskyblue', '--color-2': 'gray',
       background: `
@@ -231,6 +234,7 @@ export default function AdminProduct() {
 
         </div>
       </div>
+    </div>
     </div>
   )
 }

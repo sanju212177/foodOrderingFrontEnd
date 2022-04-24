@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Logo from '../images/food5.jpg';
+import Logo from '../images/logo.jpg';
 import cart from '../images/cart.png';
 import customer from '../images/customer.png';
 import { Button, Modal } from 'react-bootstrap';
@@ -10,11 +10,16 @@ export default function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const logout = (e)=>{
+      e.preventDefaults();
+      localStorage.removeItem('token');
+      window.location.open('http://localhost:3000/','self');
+  }
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark  rounded-3">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark  rounded-3 p-3 py-2">
         <div className="container-fluid">
-          <a className="navbar-brand" to="/"><img src={Logo} width="40" height="40" className="nav-ap-0 rounded-3" /></a>
+          <a className="navbar-brand" to="/"><img src={Logo} width="70" height="70" className="nav-ap-0 rounded-3" /></a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
@@ -29,9 +34,13 @@ export default function Header() {
 
             </ul>
             <form className="d-flex ">
-              <button className="btn btn--outline-success text-white nav-ame-1" type="submit">Logout</button>
-              <Button variant="dark p-0 pe-2 ps-2" data-toggle="tooltip" data-placement="bottom" title="Cart" onClick={handleShow}>
-                <img src={cart} width="40" height="40" className=" bg-light rounded-3" />
+
+              <button className="btn btn--outline-success text-white nav-ame-1" type="submit" >MyDetails</button>
+              <button className="btn btn--outline-success text-white nav-ame-1" type="submit" >MyOrders</button>
+              <button className="btn btn--outline-success text-white nav-ame-1" type="submit" onClick={(e)=>logout(e)}>Logout</button>
+              <button className="btn btn--outline-success text-white nav-ame-1" type="submit">Login/Signup</button>
+              <Button variant="dark p-0 pe-3 ps-2" data-toggle="tooltip" data-placement="bottom" title="Cart" onClick={handleShow}>
+                <img src={cart} width="45" height="45" className=" bg-light rounded-3" />
               </Button>
 
             </form>

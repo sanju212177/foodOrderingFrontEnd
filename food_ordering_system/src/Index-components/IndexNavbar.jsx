@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../images/food5.jpg';
+import logo from '../images/logo.jpg';
 import { Link } from 'react-scroll';
 import "./Index.css"
 function Navbar() {

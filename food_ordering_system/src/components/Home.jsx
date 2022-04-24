@@ -22,7 +22,7 @@ function Home() {
 
 
   return (
-   <div className='bg-dark' >
+   <div className='bg-dark' style={{backgroundColor:''}} >
    <CartProvider>
    <Header/>
    <PostHeader/>
