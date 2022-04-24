@@ -90,16 +90,20 @@ body{
 	font-size: 0.9rem;
 	text-transform: uppercase;
 	font-weight: 1000;
-	color:#060000;
+	color:#ffffff;
     letter-spacing: 1px;
     border-radius: 3px;
     transition: 0.2s ease-in-out;
 }
+
 .index nav ul li a:hover{
 	background-color: #FF1414;
     color:#ffffff;
 	box-shadow: 5px 10px 30px rgba(255, 2, 2, 0.336);
 	transition: all ease 0.2s;
+}
+#navbarButton {
+    color: #ffffff;
 }
 .index nav .menu-btn,
 .index .menu-icon{

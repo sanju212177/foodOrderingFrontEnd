@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 export default function Navbar(props) {
       
     const  logoutAdmin = ()=>{
-         localStorage.removeItem('token','_self');
-         window.open('/');
+         localStorage.removeItem('token');
+         window.open('/','_self');
     }
     return (
       <div>

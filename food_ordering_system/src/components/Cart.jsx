@@ -23,11 +23,8 @@ export default function Cart() {
         inCart,
         getItem
     } = useCart();
-    function buyProduct(e) {
-        setData(data => {
-            return { amount: cartTotal, customerId: 435 }
-        })
-    }
+
+
     const alertmsg = () => {
         toast.success("Your order has been placed..", {
             position: "bottom-right",
@@ -39,6 +36,18 @@ export default function Cart() {
             progress: undefined,
         });
     }
+
+    function buyProduct(e) {
+        if(localStorage.getItem('token') === null){
+            alert("please login first!!");
+        }
+        else{
+        setData(data => {
+            return { amount: cartTotal, customerId: 435 }
+        })
+     }
+    }
+
     const updateItemQuant = (id, newQuantity) => {
         ItemService.getQuantity(id).then((response) => {
             // alert(getItem(id).quantity +"---------"+ response.data)
@@ -103,7 +112,7 @@ export default function Cart() {
                     rzp.open();
                 }
                 <ToastContainer />
-                alertmsg();
+                alertmsg("Your order has been placedd..");
 
             }).catch(error => {
                 console.log(error);
