@@ -13,6 +13,7 @@ import Cart from "./Cart";
 import Success from './Success'
 import UseForm from './UseForm'
 import validate from './Validate';
+import axios from "axios";
 
 export default function Header() {
   const [show, setShow] = useState(false);
@@ -66,75 +67,48 @@ export default function Header() {
     }
 
     if (values.username.length > 0 && values.password.length > 0) {
-      UserService.signUpUser(user).then(() => {
-        alert("signed up successfully..")
+      UserService.signUpUser(user).then((response) => {
+        alert(response.status);
+        if(response.status === 406)
+      {
+        alert("username already exist!!!");
+      }
       }).catch(error => {
         console.log(error);
       })
-      setShowIn(false)
+      // setShowIn(false)
     }
   }
 
   ///pending
-  async function getAuthenticated() {
-    // e.preventDefualt();
-    // alert(username+" ---------- "+password)
-    const dataa = {
-      username, password
-    }
-    UserService.getToken(dataa).then((res)=>{
-      if(res.data){
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('username',username);
-        setTokenReceived(true);
-      } 
-    }).catch(error =>{
-      console.log(error);
-    });
-  }
- 
-  // async function getAuthenticated() {
-  //   // e.preventDefualt();
-  //   // alert(username+" ---------- "+password)
-  //   const dataa = {
-  //     username, password
-  //   }
-  //   const res = await UserService.getToken(dataa);
-  //   if(res){
-  //     localStorage.setItem('token', res.data.token)
-  //     setTokenReceived(true);
-  //   } 
+  const getAuthenticated = (e)=> {
+    e.preventDefault();
+     if(username.length >0){
+       const tokenApi =  UserService.getToken({username ,password})
+       const userApi =  UserService.loadUserByUsername(username)
+       axios.all([tokenApi,userApi]).then(
+         axios.spread((...alldata) =>{
+           const tokenData = alldata[0];
+           const user = alldata[1];
+           console.log(tokenData)
+           console.log(user)
+           if(tokenData.status==200 && user.status ==202 && user.data.role=== 'ROLE_USER'){
+               localStorage.setItem('token',tokenData.data.token)
+               localStorage.setItem('customer',JSON.stringify(user.data.customer))
+               alert("login successful!!");
+           }
+          else if(tokenData.status== 500 || user.data.role === 'ROLE_ADMIN'){
+             alert("bad Credential!!");
+           }
 
-
-  // }
- 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      UserService.loadUserByUsername(localStorage.getItem('username')).then((response) => {
-        alert(localStorage.getItem('username'));
-        // console.log(response.data.customer)
-        if (response.data.role.localeCompare('ROLE_USER') === 0) {
-          localStorage.setItem('customer', JSON.stringify(response.data.customer))
+          })
+         ).catch(error=>{
+           alert("bad Credential!!");
+         })
         }
-        else
-          localStorage.removeItem('token');
-      }).catch(error => {
-        console.log(error);
-      })
-
-    }
-  }, [tokenReceived])
-
-
-
-
-
-
-
-
-
-
-
+        if(localStorage.getItem('token'))alert("bad Credential!!")
+        window.location.reload();
+      }    
 
   // function getAuthenticated() {
   //   const dataa = {
@@ -175,23 +149,6 @@ export default function Header() {
   // }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   //get Order by customerId
   const getMyOrders = () => {
     if (localStorage.getItem('customer')) {
@@ -221,6 +178,7 @@ export default function Header() {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('customer');
+    localStorage.removeItem('username');
     window.open('http://localhost:3000/', '_self');
   }
   return (
@@ -291,7 +249,7 @@ export default function Header() {
         <Offcanvas.Body>
           <div className="text-dark" >
             <h3>Sign in,</h3>
-            <form >
+            <form onSubmit={(e)=>getAuthenticated(e)}>
               <div class="form-group ">
                 <label for="exampleInputusername1 ">username</label>
                 <input type="text" class="form-control p-2" id="exampleInputusername1" style={{ height: '30px', width: '300px' }} aria-describedby="usernameHelp" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -300,7 +258,7 @@ export default function Header() {
                 <label for="exampleInputPassword1 ">Password</label>
                 <input type="password" class="form-control p-2" id="exampleInputPassword1" style={{ height: '30px', width: '300px' }} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
-              <button type="subbmit" class="btn btn-success p-0 pe-3 btn-sm col my-2" onClick={(e) => getAuthenticated(e)}>Submit</button>
+              <button type="subbmit" class="btn btn-success p-0 pe-3 btn-sm col my-2" >Submit</button>
               <a className="col">Forgot password?</a>
             </form>
           </div>

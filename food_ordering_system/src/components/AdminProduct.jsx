@@ -173,29 +173,29 @@ export default function AdminProduct() {
                   <div className="modal-body">
                     <div className="mb-3">
                       <div className="col">
-                        <label for="foodname">Food Item Name</label>
+                        <label htmlFor="foodname">Food Item Name</label>
                         <input type="text" className="form-control" placeholder="Enter Food Item Name" name="foodname" id="foodname" value={foodName} onChange={(e) => setFoodName(e.target.value)} required />
                       </div>
                     </div>
                     <div className="mb-3">
                       <div className="col">
-                        <label for="price">Price</label>
+                        <label htmlFor="price">Price</label>
                         <input type="text" className="form-control" placeholder="Enter Price" name="price" id="price" value={price} onChange={(e) => setPrice(e.target.value)} required />
                       </div>
                     </div>
                     <div className="mb-3">
                       <div className="col">
-                        <label for="quantity">Stock</label>
+                        <label htmlFor="quantity">Stock</label>
                         <input type="text" className="form-control" placeholder="Number of items available" name="quantity" id="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
                       </div>
                     </div>
                     <div className="form-group tm-form-group mb-3">
-                      <label for="description">Food Item Description</label>
+                      <label htmlFor="description">Food Item Description</label>
                       <textarea className="form-control tm-form-control validate tm-small" placeholder='Enter Description Here' id="description" name="description" rows="2" value={info} onChange={(e) => setInfo(e.target.value)} required></textarea>
                     </div>
                     {/* For Image uploading */}
                     <div class="mb-3">
-                      <label for="formFile" class="form-label">Upload Image of Food Item</label>
+                      <label htmlFor="formFile" class="form-label">Upload Image of Food Item</label>
                       <input class="form-control" type="file" id="image" alt="_img" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} required />
                     </div>
                   </div>
@@ -219,7 +219,7 @@ export default function AdminProduct() {
                 <div className="modal-body">
                   <div className="mb-3">
                     <div className="col">
-                      <label for="foodname">Food Id</label>
+                      <label htmlFor="foodname">Food Id</label>
                       <input type="text" className="form-control" placeholder="Enter Food Id you want to delete" name="foodId" id="foodId" value={foodId} onChange={(e) => setFoodId(e.target.value)} required />
                     </div>
                   </div>
