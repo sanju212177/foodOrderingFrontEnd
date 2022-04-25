@@ -25,16 +25,16 @@ export default function Header() {
   const [orderList, setOrderList] = useState([]);
   const [tokenReceived, setTokenReceived] = useState(localStorage.getItem('token') !== null ? true : false)
 
-  const [customerName ,setCustomerName] = useState('')
-  const [customerEmail ,setCustomerEmail] = useState('')
-  const [phoneNumber ,setPhoneNumber] = useState('')
-  const [street ,setStreet] = useState('')
-  const [city ,setCity] = useState('')
-  const [state ,setState] = useState('')
-  const [country ,setCountry] = useState('')
-  const [pincode ,setPincode] = useState('')
-  
-  
+  const [customerName, setCustomerName] = useState('')
+  const [customerEmail, setCustomerEmail] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [street, setStreet] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
+  const [country, setCountry] = useState('')
+  const [pincode, setPincode] = useState('')
+  // const [userlogin , setUserLogin] = useState('');
+
   const [showIn, setShowIn] = useState(false);
   const handleCloseIn = () => setShowIn(false);
   const handleShowIn = () => setShowIn(true);
@@ -42,67 +42,77 @@ export default function Header() {
     setShow1(true);//login
   }
 
- //signuppp 
- function submitForm(){
+  //signuppp 
+  function submitForm() {
 
-}
-const { handleChangeIn, values, handleSubmit, errors } = UseForm(submitForm, validate);
-const createUser= ()=>{
+  }
+  const { handleChangeIn, values, handleSubmit, errors } = UseForm(submitForm, validate);
+  const createUser = () => {
     const user = {
-        userName : values.email,
-        password : values.password,
-        customerDto :{
-            customerName:values.username,
-            customerEmail:values.email,
-            phoneNumber:values.phone,
-            address:{
-                street:values.street,
-                city: values.city,
-                state: values.state,
-                country: "india",
-                pincode: values.pincode
-            }
+      userName: values.email,
+      password: values.password,
+      customerDto: {
+        customerName: values.username,
+        customerEmail: values.email,
+        phoneNumber: values.phone,
+        address: {
+          street: values.street,
+          city: values.city,
+          state: values.state,
+          country: "india",
+          pincode: values.pincode
         }
+      }
     }
-    
-    if(values.username.length > 0 && values.password.length > 0){
-    UserService.signUpUser(user).then(()=>{
+
+    if (values.username.length > 0 && values.password.length > 0) {
+      UserService.signUpUser(user).then(() => {
         alert("signed up successfully..")
-    }).catch(error =>{
+      }).catch(error => {
         console.log(error);
-    })
-    setShowIn(false)
+      })
+      setShowIn(false)
     }
-}
+  }
 
-  
-
-
-
-  ///pendinggggggggggggggggg
+  ///pending
   async function getAuthenticated() {
     // e.preventDefualt();
     // alert(username+" ---------- "+password)
     const dataa = {
       username, password
     }
-    // UserService.getToken(dataa).then((response) => {
-    //     localStorage.setItem('token', response.data.token)
-    // }).catch(error => {
-    //     alert(error);
-    // })
-    const res = await UserService.getToken(dataa);
-    localStorage.setItem('token', res.data.token)
-
-    setTokenReceived(true);
+    UserService.getToken(dataa).then((res)=>{
+      if(res.data){
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('username',username);
+        setTokenReceived(true);
+      } 
+    }).catch(error =>{
+      console.log(error);
+    });
   }
+ 
+  // async function getAuthenticated() {
+  //   // e.preventDefualt();
+  //   // alert(username+" ---------- "+password)
+  //   const dataa = {
+  //     username, password
+  //   }
+  //   const res = await UserService.getToken(dataa);
+  //   if(res){
+  //     localStorage.setItem('token', res.data.token)
+  //     setTokenReceived(true);
+  //   } 
 
+
+  // }
+ 
   useEffect(() => {
-    if (localStorage.getItem('token') !== null && username !== undefined) {
-      UserService.loadUserByUsername(username).then((response) => {
-        alert(username);
-        //  const data = response.data;
-        console.log(response.data.customer)
+    if (localStorage.getItem('token')) {
+      UserService.loadUserByUsername(localStorage.getItem('username')).then((response) => {
+        alert(localStorage.getItem('username'));
+        // console.log(response.data.customer)
         if (response.data.role.localeCompare('ROLE_USER') === 0) {
           localStorage.setItem('customer', JSON.stringify(response.data.customer))
         }
@@ -118,31 +128,95 @@ const createUser= ()=>{
 
 
 
+
+
+
+
+
+
+
+
+  // function getAuthenticated() {
+  //   const dataa = {
+  //     username, password
+  //   }
+  //   let p = new Promise((resolve, reject) => {
+  //     UserService.getToken(dataa).then((res) => {
+  //       if (res.data != undefined) {
+  //         localStorage.setItem('token', res.data.token)
+  //         resolve(true);
+  //       }
+  //       else {
+  //         reject(false)
+  //       }
+  //     })
+  //   })
+
+  //   p.then(() => {
+  //     if (localStorage.getItem('token') !== null && username !== undefined) {
+  //       UserService.loadUserByUsername(username).then((response) => {
+  //         alert(username);
+  //         //  const data = response.data;
+  //         console.log(response.data.customer)
+  //         if (response.data.role.localeCompare('ROLE_USER') === 0) {
+  //           localStorage.setItem('customer', JSON.stringify(response.data.customer))
+  //         }
+  //         else
+  //           localStorage.removeItem('token');
+  //       }).catch(error => {
+  //         console.log(error);
+  //       })
+
+  //     }
+
+  //   }).catch(()=>{
+  //     console.log("bad credentials")
+  //   })
+  // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   //get Order by customerId
   const getMyOrders = () => {
-    if(localStorage.getItem('customer')){
-    OrdersService.getOrderByCustomerId(Number(JSON.parse(localStorage.getItem('customer')).customerId)).then((response) => {
-      setOrderList(response.data)
-    }).catch(error => {
-      console.log(error);
-    })
+    if (localStorage.getItem('customer')) {
+      OrdersService.getOrderByCustomerId(Number(JSON.parse(localStorage.getItem('customer')).customerId)).then((response) => {
+        setOrderList(response.data)
+      }).catch(error => {
+        console.log(error);
+      })
     }
   }
 
   //setting customers details
-  const setMyDetails = () =>{
-      // setDetails(JSON.parse(localStorage.getItem('customer')))
-      if(localStorage.getItem('customer')){
+  const setMyDetails = () => {
+    // setDetails(JSON.parse(localStorage.getItem('customer')))
+    if (localStorage.getItem('customer')) {
       setCustomerName(JSON.parse(localStorage.getItem('customer')).customerName);
-      setCustomerEmail(JSON.parse(localStorage.getItem('customer')).customerEmail );
-      setPhoneNumber(JSON.parse(localStorage.getItem('customer')).phoneNumber );
-      setStreet(JSON.parse(localStorage.getItem('customer')).address.street );
-      setCity(JSON.parse(localStorage.getItem('customer')).address.city  );
-      setState(JSON.parse(localStorage.getItem('customer')).address.state );
-      setCountry(JSON.parse(localStorage.getItem('customer')).address.country );
+      setCustomerEmail(JSON.parse(localStorage.getItem('customer')).customerEmail);
+      setPhoneNumber(JSON.parse(localStorage.getItem('customer')).phoneNumber);
+      setStreet(JSON.parse(localStorage.getItem('customer')).address.street);
+      setCity(JSON.parse(localStorage.getItem('customer')).address.city);
+      setState(JSON.parse(localStorage.getItem('customer')).address.state);
+      setCountry(JSON.parse(localStorage.getItem('customer')).address.country);
       setPincode(JSON.parse(localStorage.getItem('customer')).address.pincode);
-      }
-  } 
+    }
+  }
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -178,9 +252,9 @@ const createUser= ()=>{
                 <div>
                   <button className="btn btn--outline-success text-white nav-ame-1" type="button" onClick={handleShow1}><small>LOGIN</small></button>
                   <button className="btn btn--outline-success text-white nav-ame-1" type="button" onClick={handleShowIn} ><small>SIGNUP</small></button>
-                 
+
                 </div>
-             )}
+              )}
             </form>
             <Button variant="dark p-0 pe-2 ps-2" data-toggle="tooltip" data-placement="bottom" title="Cart" onClick={handleShow}>
               <img src={cart} width="55" height="55" className=" bg-light rounded-3" />
@@ -204,14 +278,14 @@ const createUser= ()=>{
 
 
       <Offcanvas show={show1} onHide={handleClose1} placement="end" name="end" className='bg-dark text-white' style={{
-      '--color-1': 'deepskyblue', '--color-2': 'gray',
-      background: `
+        '--color-1': 'deepskyblue', '--color-2': 'gray',
+        background: `
     linear-gradient(
       120deg,
       var(--color-1),
       var(--color-2) 80%
     )`
-    }}>
+      }}>
         <Offcanvas.Header closeButton >
         </Offcanvas.Header>
         <Offcanvas.Body>
@@ -308,7 +382,7 @@ const createUser= ()=>{
         </div>
       </div>
 
-  
+
 
 
 
@@ -404,107 +478,107 @@ const createUser= ()=>{
 
 
 
-       {/* sign uppppppppp */}
+      {/* sign uppppppppp */}
       <Offcanvas show={showIn} onHide={handleCloseIn} placement="end" name="end" className='bg-dark text-dark' style={{
-      '--color-1': 'deepskyblue', '--color-2': 'gray',
-      background: `
+        '--color-1': 'deepskyblue', '--color-2': 'gray',
+        background: `
     linear-gradient(
       120deg,
       var(--color-1),
       var(--color-2) 80%
     )`
-    }}>
-                <Offcanvas.Header closeButton  >
-                </Offcanvas.Header>
-                <Offcanvas.Body>
-                <div className='signup'>
-        <div className='form-content-right' style={{
-      '--color-1': 'deepskyblue', '--color-2': 'gray',
-      background: `
+      }}>
+        <Offcanvas.Header closeButton  >
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <div className='signup'>
+            <div className='form-content-right' style={{
+              '--color-1': 'deepskyblue', '--color-2': 'gray',
+              background: `
     linear-gradient(
       120deg,
       var(--color-1),
       var(--color-2) 80%
     )`
-    }}>
-            <form onSubmit={handleSubmit} method='get'>
+            }}>
+              <form onSubmit={handleSubmit} method='get'>
                 <h1>Sign Up</h1>
                 <div className='form-group'>
-                    <div className='row'>
-                        <div className='col-md-5'>
-                            <label htmlFor='username' className='control-label'>Name</label>
-                            <input type="text" name='username' className="form-control" style={{ height: '30px', width: '155px' }} value={values.username} onChange={handleChangeIn} defaultValue={values.phonecode} />
-                            {errors.username && <p style={{fontSize:'15px',color:'red'}}>{errors.username}</p>}
-                        </div>
-                        <div className="col-md-5">
-                            <label htmlFor='phone' className='control-label'>Contact No.</label>
-                            <input type="tel" name='phone' className="form-control" style={{ height: '30px', width: '155px' }} value={values.phone} onChange={handleChangeIn} />
-                            {errors.phone && <p style={{fontSize:'15px',color:'red'}}>{errors.phone}</p>}
-                        </div>
+                  <div className='row'>
+                    <div className='col-md-5'>
+                      <label htmlFor='username' className='control-label'>Name</label>
+                      <input type="text" name='username' className="form-control" style={{ height: '30px', width: '155px' }} value={values.username} onChange={handleChangeIn} defaultValue={values.phonecode} />
+                      {errors.username && <p style={{ fontSize: '15px', color: 'red' }}>{errors.username}</p>}
                     </div>
-                </div>
-                
-
-
-                <div className='form-group'>
-                    <div className='row'>
-                        <div className='col-md-5'>
-                            <label htmlFor='email' className='control-label'>Email</label>
-                            <input type="email" name='email' className="form-control" style={{ height: '30px', width: '155px' }} value={values.email} onChange={handleChangeIn} />
-                            {errors.email && <p style={{fontSize:'15px',color:'red'}}>{errors.email}</p>}
-                        </div>
-                        <div className='col-md-5'>
-                            <label htmlFor='password' className='control-label'>Password</label>
-                            <input type="password" name='password' className="form-control" style={{ height: '30px', width: '155px' }} value={values.password} onChange={handleChangeIn} />
-                            {errors.password && <p style={{fontSize:'15px',color:'red'}}>{errors.password}</p>}
-                        </div>
+                    <div className="col-md-5">
+                      <label htmlFor='phone' className='control-label'>Contact No.</label>
+                      <input type="tel" name='phone' className="form-control" style={{ height: '30px', width: '155px' }} value={values.phone} onChange={handleChangeIn} />
+                      {errors.phone && <p style={{ fontSize: '15px', color: 'red' }}>{errors.phone}</p>}
                     </div>
+                  </div>
                 </div>
 
 
+
                 <div className='form-group'>
-                    <div className='form-group'>
-                        <label htmlFor='address' className='control-label '>Address: </label>
-                        <div className='row'>
-                            <div className='col-md-5'>
-                                <label htmlFor='street' className='control-label'>Street</label>
-                                <input type="text" name='street' className="form-control" style={{ height: '30px', width: '155px' }} value={values.street} onChange={handleChangeIn} />
-                            </div>
-                            <div className='col-md-5'>
-                                <label htmlFor='city' className='control-label'>City</label>
-                                <input type="text" name='city' className="form-control" style={{ height: '30px', width: '155px' }} value={values.city} onChange={handleChangeIn} />
-                            </div>
-                        </div>
+                  <div className='row'>
+                    <div className='col-md-5'>
+                      <label htmlFor='email' className='control-label'>Email</label>
+                      <input type="email" name='email' className="form-control" style={{ height: '30px', width: '155px' }} value={values.email} onChange={handleChangeIn} />
+                      {errors.email && <p style={{ fontSize: '15px', color: 'red' }}>{errors.email}</p>}
                     </div>
-
-
-
-                    <div className='form-group'>
-                        <div className='row'>
-                            <div className='col-md-5'>
-                                <label htmlFor='state' className='control-label'>State</label>
-                                <input type="text" name='state' className="form-control" style={{ height: '30px', width: '155px' }} value={values.state} onChange={handleChangeIn} />
-                            </div>
-                            <div className='col-md-5'>
-                                <label htmlFor='pincode' className='control-label'>Pincode</label>
-                                <input type="text" name='pincode' className="form-control" style={{ height: '30px', width: '155px' }} value={values.pincode} onChange={handleChangeIn} />
-                            </div>
-                        </div>
+                    <div className='col-md-5'>
+                      <label htmlFor='password' className='control-label'>Password</label>
+                      <input type="password" name='password' className="form-control" style={{ height: '30px', width: '155px' }} value={values.password} onChange={handleChangeIn} />
+                      {errors.password && <p style={{ fontSize: '15px', color: 'red' }}>{errors.password}</p>}
                     </div>
-                    {errors.address && <p style={{fontSize:'15px',color:'red'}}>{errors.address}</p>}
+                  </div>
+                </div>
+
+
+                <div className='form-group'>
+                  <div className='form-group'>
+                    <label htmlFor='address' className='control-label '>Address: </label>
+                    <div className='row'>
+                      <div className='col-md-5'>
+                        <label htmlFor='street' className='control-label'>Street</label>
+                        <input type="text" name='street' className="form-control" style={{ height: '30px', width: '155px' }} value={values.street} onChange={handleChangeIn} />
+                      </div>
+                      <div className='col-md-5'>
+                        <label htmlFor='city' className='control-label'>City</label>
+                        <input type="text" name='city' className="form-control" style={{ height: '30px', width: '155px' }} value={values.city} onChange={handleChangeIn} />
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div className='form-group'>
+                    <div className='row'>
+                      <div className='col-md-5'>
+                        <label htmlFor='state' className='control-label'>State</label>
+                        <input type="text" name='state' className="form-control" style={{ height: '30px', width: '155px' }} value={values.state} onChange={handleChangeIn} />
+                      </div>
+                      <div className='col-md-5'>
+                        <label htmlFor='pincode' className='control-label'>Pincode</label>
+                        <input type="text" name='pincode' className="form-control" style={{ height: '30px', width: '155px' }} value={values.pincode} onChange={handleChangeIn} />
+                      </div>
+                    </div>
+                  </div>
+                  {errors.address && <p style={{ fontSize: '15px', color: 'red' }}>{errors.address}</p>}
                 </div>
 
 
                 <button className="btn-success rounded-3 my-3" type='submit' onClick={createUser}>Sign Up</button>
                 <br />
                 <span className="form-input-login">Already have an account?
-                    <a href="#SecLogin"> Log In</a> here </span>
-            </form>
-        </div>
-        </div>
-                </Offcanvas.Body>
-            </Offcanvas>
-     
+                  <a href="#SecLogin"> Log In</a> here </span>
+              </form>
+            </div>
+          </div>
+        </Offcanvas.Body>
+      </Offcanvas>
+
 
 
 

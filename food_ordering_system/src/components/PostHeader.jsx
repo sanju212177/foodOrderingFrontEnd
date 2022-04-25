@@ -28,7 +28,7 @@ export default function PostHeader() {
         alt="First slide"
       />
       <Carousel.Caption>
-        <h3>Food kart</h3>
+        <h3>Food Cart</h3>
         <p>The secret of success in life is to eat what you like and let the food fight it out inside</p>
       </Carousel.Caption>
     </Carousel.Item>
@@ -41,7 +41,7 @@ export default function PostHeader() {
       />
   
       <Carousel.Caption>
-        <h3>Food kart</h3>
+        <h3>Food Cart</h3>
         <p>Your diet is a bank account. Good food choices are good investments</p>
       </Carousel.Caption>
     </Carousel.Item>
@@ -53,7 +53,7 @@ export default function PostHeader() {
       />
   
       <Carousel.Caption>
-        <h3>Food kart</h3>
+        <h3>Food Cart</h3>
         <p>If you cant' feed a hundred people, then just feed one</p>
       </Carousel.Caption>
     </Carousel.Item>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Navbar from './AdminNavbar'
 import UserService from '../services/UserService';
 
@@ -41,11 +41,10 @@ export default function AdminLogin() {
 
             setIsActive(true);
         }
-        else{
-            setLoginError("bad Credentials!!!")
-        }
+
 
     }
+
 
 
     return (
@@ -74,7 +73,7 @@ export default function AdminLogin() {
                             <input type="password" class="form-control"  id="exampleInputPassword1" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         </div>
                         <div className='text-danger'><h4>{loginError}</h4></div>
-                        <button type="subbmit" class="btn btn-success  btn-sm" onClick={getAuthenticated}>Submit</button>
+                        <button type="button" class="btn btn-success  btn-sm" onClick={getAuthenticated}>Submit</button>
                     </form>
                     </div>
                     )}
