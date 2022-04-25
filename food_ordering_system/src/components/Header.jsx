@@ -64,13 +64,15 @@ const createUser= ()=>{
             }
         }
     }
-    // UserService.signUpUser(user).then(()=>{
-    //     alert("signed up successfully..")
-    // }).catch(error =>{
-    //     console.log(error);
-    // })
-    // if(values.email)
-    // setShowIn(false)
+    
+    if(values.username.length > 0 && values.password.length > 0){
+    UserService.signUpUser(user).then(()=>{
+        alert("signed up successfully..")
+    }).catch(error =>{
+        console.log(error);
+    })
+    setShowIn(false)
+    }
 }
 
   
