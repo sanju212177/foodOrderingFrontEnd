@@ -8,8 +8,9 @@ export default function AdminLogin() {
     const [isActive, setIsActive] = useState(localStorage.getItem('token') ? true : false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [customer, setCustomer] = useState({});
+    const [user, setUser] = useState({});
     const [ loginError ,setLoginError] = useState("");
+    
 
 
     const getAuthenticated = (e) => {
@@ -19,11 +20,25 @@ export default function AdminLogin() {
             username, password
         }
         UserService.getToken(dataa).then((response) => {
-            localStorage.setItem('token', response.data.token)
+            
+   
+            UserService.loadUserByUsername(dataa.username).then((response)=>{
+                console.log(response.data.role)
+                if(response.data.role.localeCompare('ROLE_ADMIN') === 0 ){
+                    localStorage.setItem('token', response.data.token)
+                }
+                else{
+                    setLoginError("bad Credentials!!!")
+                }
+            }).catch(error=>{
+                console.log(error);
+            })            
+ 
         }).catch(error => {
             console.log(error);
         })
         if (localStorage.getItem('token')!==null) {
+
             setIsActive(true);
         }
         else{

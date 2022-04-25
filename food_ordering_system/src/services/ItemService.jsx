@@ -4,7 +4,7 @@ const ITEM_BASE_REST_API_URl = 'http://localhost:9191/items' ;
 class ItemService{
 
     getAllFoodItems(){
-        return axios.get(ITEM_BASE_REST_API_URl+"/getAllItems");
+        return axios.get("http://localhost:9191/public_items/getAllItems");
     }
     updateQuantity(intemId , Item){
         return axios.patch(ITEM_BASE_REST_API_URl+'/updateQuantity/'+intemId ,Item)

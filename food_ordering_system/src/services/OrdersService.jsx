@@ -12,6 +12,9 @@ class OrderService{
     createOrder(order){
         return axios.post(ORDERS_BASE_REST_API_URl + "/addOrder" , order)
     }
+    getOrderByCustomerId(customerId){
+        return axios.get(ORDERS_BASE_REST_API_URl + "/getByCustomerId/" + customerId)
+    }
 }
 
 export default  new OrderService();

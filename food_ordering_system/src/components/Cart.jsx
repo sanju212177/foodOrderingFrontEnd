@@ -43,7 +43,7 @@ export default function Cart() {
         }
         else{
         setData(data => {
-            return { amount: cartTotal, customerId: 435 }
+            return { amount: cartTotal, customerId: Number(JSON.parse(localStorage.getItem('customer')).customerId) }
         })
      }
     }

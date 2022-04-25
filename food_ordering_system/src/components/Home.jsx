@@ -22,13 +22,13 @@ function Home() {
 
 
   return (
-   <div className='bg-dark' style={{backgroundColor:''}} >
+   <div className='bg-dark'>
    <CartProvider>
    <Header/>
    <PostHeader/>
    <FoodItems data = {foodItems}/>
-   <Footer />
    </CartProvider>
+   <Footer />
    </div>
   
   );
