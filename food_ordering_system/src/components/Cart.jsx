@@ -145,12 +145,12 @@ export default function Cart() {
     if (isEmpty) return <h5 style={{ color: "red" }} className="text-center ">Your Cart is Empty!</h5>
 
     return (
-        <section className="py-4 container">
+        <section className="py-4 container"  >
             <div className="row justify-content-center">
                 <div className="col-12">
                     {/* <h5>Cart({totalUniqueItems})total Items:({totalItems})</h5> */}
                     <table className="table table-light table-hover table-sm text-xsmall" style={{ fontSize: '1rem' }}>
-                        <tbody>
+                        <tbody >
                             {items.map((item, index) => {
                                 return (
                                     <tr key={index} className="row ">

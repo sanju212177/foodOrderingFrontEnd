@@ -64,13 +64,13 @@ const createUser= ()=>{
             }
         }
     }
-    UserService.signUpUser(user).then(()=>{
-        alert("signed up successfully..")
-    }).catch(error =>{
-        console.log(error);
-    })
-    if(values.email)
-    setShowIn(false)
+    // UserService.signUpUser(user).then(()=>{
+    //     alert("signed up successfully..")
+    // }).catch(error =>{
+    //     console.log(error);
+    // })
+    // if(values.email)
+    // setShowIn(false)
 }
 
   
@@ -151,7 +151,7 @@ const createUser= ()=>{
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark  rounded-3 p-3 py-2">
         <div className="container-fluid">
-          <a className="navbar-brand" to="/"><img src={Logo} width="55" height="55" className="nav-ap-0 rounded-3" /></a>
+          <a className="navbar-brand" href="/"><img src={Logo} width="55" height="55" className="nav-ap-0 rounded-3" /></a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
@@ -187,31 +187,44 @@ const createUser= ()=>{
         </div>
       </nav>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} >
         <Modal.Header closeButton>
           <Modal.Title>Your cart ,</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body >
           <Cart />
         </Modal.Body>
       </Modal>
 
-      <Offcanvas show={show1} onHide={handleClose1} placement="end" name="end" className='bg-dark text-white'>
+
+
+
+
+
+      <Offcanvas show={show1} onHide={handleClose1} placement="end" name="end" className='bg-dark text-white' style={{
+      '--color-1': 'deepskyblue', '--color-2': 'gray',
+      background: `
+    linear-gradient(
+      120deg,
+      var(--color-1),
+      var(--color-2) 80%
+    )`
+    }}>
         <Offcanvas.Header closeButton >
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <div >
+          <div className="text-dark" >
             <h3>Sign in,</h3>
             <form >
               <div class="form-group ">
                 <label for="exampleInputusername1 ">username</label>
                 <input type="text" class="form-control p-2" id="exampleInputusername1" style={{ height: '30px', width: '300px' }} aria-describedby="usernameHelp" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
               </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
+              <div class="form-group my-2">
+                <label for="exampleInputPassword1 ">Password</label>
                 <input type="password" class="form-control p-2" id="exampleInputPassword1" style={{ height: '30px', width: '300px' }} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
-              <button type="subbmit" class="btn btn-success p-0 pe-3 btn-sm col" onClick={(e) => getAuthenticated(e)}>Submit</button>
+              <button type="subbmit" class="btn btn-success p-0 pe-3 btn-sm col my-2" onClick={(e) => getAuthenticated(e)}>Submit</button>
               <a className="col">Forgot password?</a>
             </form>
           </div>
@@ -390,25 +403,41 @@ const createUser= ()=>{
 
 
        {/* sign uppppppppp */}
-      <Offcanvas show={showIn} onHide={handleCloseIn} placement="end" name="end" className='bg-dark text-white'>
-                <Offcanvas.Header closeButton >
+      <Offcanvas show={showIn} onHide={handleCloseIn} placement="end" name="end" className='bg-dark text-dark' style={{
+      '--color-1': 'deepskyblue', '--color-2': 'gray',
+      background: `
+    linear-gradient(
+      120deg,
+      var(--color-1),
+      var(--color-2) 80%
+    )`
+    }}>
+                <Offcanvas.Header closeButton  >
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                 <div className='signup'>
-        <div className='form-content-right'>
+        <div className='form-content-right' style={{
+      '--color-1': 'deepskyblue', '--color-2': 'gray',
+      background: `
+    linear-gradient(
+      120deg,
+      var(--color-1),
+      var(--color-2) 80%
+    )`
+    }}>
             <form onSubmit={handleSubmit} method='get'>
                 <h1>Sign Up</h1>
                 <div className='form-group'>
                     <div className='row'>
                         <div className='col-md-5'>
                             <label htmlFor='username' className='control-label'>Name</label>
-                            <input type="text" name='username' className="form-control" value={values.username} onChange={handleChangeIn} defaultValue={values.phonecode} />
-                            {errors.username && <p>{errors.username}</p>}
+                            <input type="text" name='username' className="form-control" style={{ height: '30px', width: '155px' }} value={values.username} onChange={handleChangeIn} defaultValue={values.phonecode} />
+                            {errors.username && <p style={{fontSize:'15px',color:'red'}}>{errors.username}</p>}
                         </div>
                         <div className="col-md-5">
                             <label htmlFor='phone' className='control-label'>Contact No.</label>
-                            <input type="tel" name='phone' className="form-control" value={values.phone} onChange={handleChangeIn} />
-                            {errors.phone && <p>{errors.phone}</p>}
+                            <input type="tel" name='phone' className="form-control" style={{ height: '30px', width: '155px' }} value={values.phone} onChange={handleChangeIn} />
+                            {errors.phone && <p style={{fontSize:'15px',color:'red'}}>{errors.phone}</p>}
                         </div>
                     </div>
                 </div>
@@ -419,13 +448,13 @@ const createUser= ()=>{
                     <div className='row'>
                         <div className='col-md-5'>
                             <label htmlFor='email' className='control-label'>Email</label>
-                            <input type="email" name='email' className="form-control" value={values.email} onChange={handleChangeIn} />
-                            {errors.email && <p>{errors.email}</p>}
+                            <input type="email" name='email' className="form-control" style={{ height: '30px', width: '155px' }} value={values.email} onChange={handleChangeIn} />
+                            {errors.email && <p style={{fontSize:'15px',color:'red'}}>{errors.email}</p>}
                         </div>
                         <div className='col-md-5'>
                             <label htmlFor='password' className='control-label'>Password</label>
-                            <input type="password" name='password' className="form-control" value={values.password} onChange={handleChangeIn} />
-                            {errors.password && <p>{errors.password}</p>}
+                            <input type="password" name='password' className="form-control" style={{ height: '30px', width: '155px' }} value={values.password} onChange={handleChangeIn} />
+                            {errors.password && <p style={{fontSize:'15px',color:'red'}}>{errors.password}</p>}
                         </div>
                     </div>
                 </div>
@@ -437,11 +466,11 @@ const createUser= ()=>{
                         <div className='row'>
                             <div className='col-md-5'>
                                 <label htmlFor='street' className='control-label'>Street</label>
-                                <input type="text" name='street' className="form-control" value={values.street} onChange={handleChangeIn} />
+                                <input type="text" name='street' className="form-control" style={{ height: '30px', width: '155px' }} value={values.street} onChange={handleChangeIn} />
                             </div>
                             <div className='col-md-5'>
                                 <label htmlFor='city' className='control-label'>City</label>
-                                <input type="text" name='city' className="form-control" value={values.city} onChange={handleChangeIn} />
+                                <input type="text" name='city' className="form-control" style={{ height: '30px', width: '155px' }} value={values.city} onChange={handleChangeIn} />
                             </div>
                         </div>
                     </div>
@@ -452,19 +481,19 @@ const createUser= ()=>{
                         <div className='row'>
                             <div className='col-md-5'>
                                 <label htmlFor='state' className='control-label'>State</label>
-                                <input type="text" name='state' className="form-control" value={values.state} onChange={handleChangeIn} />
+                                <input type="text" name='state' className="form-control" style={{ height: '30px', width: '155px' }} value={values.state} onChange={handleChangeIn} />
                             </div>
                             <div className='col-md-5'>
                                 <label htmlFor='pincode' className='control-label'>Pincode</label>
-                                <input type="text" name='pincode' className="form-control" value={values.pincode} onChange={handleChangeIn} />
+                                <input type="text" name='pincode' className="form-control" style={{ height: '30px', width: '155px' }} value={values.pincode} onChange={handleChangeIn} />
                             </div>
                         </div>
                     </div>
-                    {errors.address && <p>{errors.address}</p>}
+                    {errors.address && <p style={{fontSize:'15px',color:'red'}}>{errors.address}</p>}
                 </div>
 
 
-                <button className="form-input-btn" type='submit' onClick={createUser}>Sign Up</button>
+                <button className="btn-success rounded-3 my-3" type='submit' onClick={createUser}>Sign Up</button>
                 <br />
                 <span className="form-input-login">Already have an account?
                     <a href="#SecLogin"> Log In</a> here </span>
